@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pong</title>
+  <style>
+    canvas {
+      background-color: #000;
+      display: block; /* Important for responsiveness */
+      margin: 0 auto;
+    }
+    #scoreboard {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 2em;
+      color: #fff;
+      text-align: center;
+      width: 100px; /* Make it wider */
+    }
+    #scoreboard span{
+      margin: 0 5px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="pongCanvas" width="400" height="300"></canvas>
+  <div id="scoreboard">
+    Player: <span id="playerScore">0</span> - AI: <span id="aiScore">0</span>
+  </div>
+  <script>
+    const canvas = document.getElementById('pongCanvas');
+    const ctx = canvas.getContext('2d');
+    const playerScore = document.getElementById('playerScore');
+    const aiScore = document.getElementById('aiScore');
+
+    let playerY = canvas.height / 2 - 25;
+    let aiY = canvas.height / 2 - 25;
+    let ballX = canvas.width / 2;
+    let ballY = canvas.height / 2;
+    let ballSpeedX = 5;
+    let ballSpeedY = 5;
+
+    let playerScoreCount = 0;
+    let aiScoreCount = 0;
+
+    const playerHeight = 50;
+    const aiHeight = 50;
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw player
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, playerY, 10, playerHeight);
+
+      // Draw AI
+      ctx.fillRect(canvas.width - 10, aiY, 10, aiHeight);
+
+      //Draw ball
+      ctx.beginPath();
+      ctx.arc(ballX, ballY, 10, 0, Math.PI * 2);
+      ctx.fillStyle = "#fff";
+      ctx.fill();
+      ctx.closePath();
+
+      //Move ball
+      ballX += ballSpeedX;
+      ballY += ballSpeedY;
+      //AI movement - Simple AI
+      if(ballX > canvas.width/2){
+        aiY = ballY - aiHeight/2;
+      }else{
+        aiY += (ballY - (aiY + aiHeight / 2))/5;
+      }
+
+
+      //Bounce off walls
+      if (ballY + 10 > canvas.height || ballY - 10 < 0) {
+        ballSpeedY *= -1;
+      }
+      //Bounce off player/AI
+      if (ballX - 10 < 10 && ballY > playerY && ballY < playerY + playerHeight) {
+        ballSpeedX *= -1;
+      }
+      if (ballX + 10 > canvas.width - 10 && ballY > aiY && ballY < aiY + aiHeight) {
+        ballSpeedX *= -1;
+      }
+
+      if (ballX < 0) {
+        aiScoreCount++;
+        aiScore.textContent = aiScoreCount;
+        resetBall();
+      }
+      if (ballX > canvas.width) {
+        playerScoreCount++;
+        playerScore.textContent = playerScoreCount;
+        resetBall();
+      }
+    }
+    function resetBall(){
+      ballX = canvas.width / 2;
+      ballY = canvas.height / 2;
+      ballSpeedX *= -1;
+    }
+    setInterval(draw, 10);
+  </script>
+</body>
+</html>

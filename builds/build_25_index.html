@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pong</title>
+<style>
+  canvas {
+    background-color: #000;
+    display: block;
+    margin: 20px auto;
+    border: 2px solid white;
+  }
+  #score-container{
+    text-align:center;
+    margin-top:10px;
+  }
+  #score-container span{
+    font-size:2em;
+    color:white;
+    margin: 0 10px;
+  }
+</style>
+</head>
+<body>
+  <div id="score-container">
+    <span id="player-score">0</span> - <span id="robot-score">0</span>
+  </div>
+  <canvas id="pongCanvas" width="400" height="300"></canvas>
+
+<script>
+  const canvas = document.getElementById('pongCanvas');
+  const ctx = canvas.getContext('2d');
+  const playerScore = document.getElementById('player-score');
+  const robotScore = document.getElementById('robot-score');
+  
+  let playerY = canvas.height / 2 - 25;
+  let robotY = canvas.height / 2 - 25;
+  let ballX = canvas.width / 2;
+  let ballY = canvas.height / 2;
+  let ballSpeedX = 5;
+  let ballSpeedY = 5;
+  let playerScoreCount = 0;
+  let robotScoreCount = 0;
+  
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Draw Player paddle
+    ctx.fillRect(0, playerY, 10, 50);
+  
+    //Draw Robot paddle
+    ctx.fillRect(canvas.width - 10, robotY, 10, 50);
+
+    // Draw Ball
+    ctx.beginPath();
+    ctx.arc(ballX, ballY, 10, 0, Math.PI * 2);
+    ctx.fillStyle = "white";
+    ctx.fill();
+    ctx.closePath();
+
+    //Move Ball
+    ballX += ballSpeedX;
+    ballY += ballSpeedY;
+    
+    //Bounce off top/bottom walls
+    if (ballY + 10 > canvas.height || ballY - 10 < 0) {
+      ballSpeedY *= -1;
+    }
+    //Check for paddle collisions (player)
+    if(ballX - 10 < 10 && ballY > playerY && ballY < playerY + 50) {
+        ballSpeedX *= -1;
+    }
+
+    // Robot AI (Simple movement)
+    if (ballX > canvas.width / 2) {
+        if (ballY > robotY + 25) {
+            robotY += 5;
+        } else if (ballY < robotY - 25){
+            robotY -= 5;
+        }
+    }
+    
+    //Collision with the robot paddle
+    if(ballX + 10 > canvas.width - 10 && ballY > robotY && ballY < robotY + 50){
+        ballSpeedX *= -1;
+    }
+    
+    //Score Handling
+    if (ballX < 0) {
+      robotScoreCount++;
+      robotScore.textContent = robotScoreCount;
+      resetBall();
+    } else if (ballX > canvas.width) {
+      playerScoreCount++;
+      playerScore.textContent = playerScoreCount;
+      resetBall();
+    }
+    requestAnimationFrame(draw);
+  }
+
+  function resetBall() {
+    ballX = canvas.width / 2;
+    ballY = canvas.height / 2;
+    ballSpeedX *= -1;
+  }
+
+
+  document.addEventListener('mousemove', function(event){
+      let rect = canvas.getBoundingClientRect();
+      playerY = event.clientY - rect.top -25;
+  });
+
+  draw();
+</script>
+</body>
+</html>

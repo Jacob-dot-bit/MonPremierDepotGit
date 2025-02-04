@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moving Sun</title>
+  <style>
+    body {
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f0f0f0;
+    }
+
+    #sun {
+      width: 50px;
+      height: 50px;
+      background-color: yellow;
+      border-radius: 50%;
+      position: relative;
+      animation: move 5s linear infinite;
+    }
+
+    @keyframes move {
+      0% {
+        transform: translateX(0) translateY(0);
+      }
+      100% {
+        transform: translateX(calc(100vw - 50px)) translateY(calc(100vh - 50px));
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="sun"></div>
+  <script>
+    // Ensure the animation is relative to the visible area
+    const sun = document.getElementById('sun');
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    // Update sun position when the window resizes
+    window.addEventListener('resize', () => {
+      sun.style.width = Math.min(50, window.innerWidth / 5) + 'px';
+      sun.style.height = Math.min(50, window.innerHeight / 5) + 'px';
+      
+        // Recalculate animation based on viewport size for responsiveness
+      const animation = sun.style.animation;
+      sun.style.animation = '';
+      sun.style.animation = animation;
+    });
+
+    // Initial positioning
+    window.addEventListener('load', () => {
+      sun.style.width = Math.min(50, window.innerWidth / 5) + 'px';
+      sun.style.height = Math.min(50, window.innerHeight / 5) + 'px';
+    });
+
+  </script>
+</body>
+</html>

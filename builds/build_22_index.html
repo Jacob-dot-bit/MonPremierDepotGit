@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moving Mouse</title>
+  <style>
+    body {
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f0f0f0;
+    }
+
+    .mouse {
+      width: 50px;
+      height: 50px;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2C17.52 2 22 6.48 22 12C22 17.52 17.52 22 12 22ZM12 10.97C15.18 10.97 18 13.75 18 17.03C18 20.19 15.18 23.01 12 23.01C8.82 23.01 6 20.19 6 17.03C6 13.75 8.82 10.97 12 10.97Z"/><circle cx="12" cy="16" r="2.5" fill="currentColor"/></svg>');
+      background-size: contain;
+      background-repeat: no-repeat;
+      border-radius: 50%;
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="mouse"></div>
+  <script>
+    const mouse = document.querySelector('.mouse');
+    const body = document.body;
+
+    function moveMouse() {
+      let x = Math.floor(Math.random() * (body.clientWidth - mouse.offsetWidth));
+      let y = Math.floor(Math.random() * (body.clientHeight - mouse.offsetHeight));
+
+      mouse.style.left = x + "px";
+      mouse.style.top = y + "px";
+
+      setTimeout(moveMouse, 500);
+    }
+
+    moveMouse();
+  </script>
+</body>
+</html>
