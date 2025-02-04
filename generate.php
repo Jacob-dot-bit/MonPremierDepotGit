@@ -113,6 +113,9 @@ function getGeneratedFiles($prompt, $API_KEY, $MODEL, $IA_USED) {
     $ch = curl_init($apiUrl);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); # Si le projet est lancé en local
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); # Si le projet est lancé en local
+    
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         'Content-Type: application/json',
         $IA_USED === 'gemini' ? '' : 'Authorization: Bearer ' . $API_KEY,
