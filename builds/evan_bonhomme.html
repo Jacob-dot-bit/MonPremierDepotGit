@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Petit Bonhomme qui Saute</title>
+  <style>
+    #jumper {
+      width: 50px;
+      height: 70px;
+      background-color: #FFD700;
+      border-radius: 50% 50% 0 0;
+      position: relative;
+      margin: 50px auto;
+      animation: jump 1s ease-in-out infinite;
+      transform-origin: 50% 100%;
+    }
+
+    #jumper::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 20px;
+      background-color: black;
+      border-radius: 50% 50% 0 0;
+      z-index: 1;
+    }
+
+    @keyframes jump {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-50px); }
+      100% { transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div id="jumper"></div>
+  <script>
+    // JavaScript code to add interactivity (optional)
+  </script>
+</body>
+</html>
