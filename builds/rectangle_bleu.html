@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jumping Rectangle</title>
+  <style>
+    #rectangle {
+      width: 100px;
+      height: 50px;
+      background-color: blue;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 0;
+    }
+
+    @keyframes jump {
+      0% {
+        bottom: 0;
+      }
+      50% {
+        bottom: 150px;
+      }
+      100% {
+        bottom: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="rectangle"></div>
+  <script>
+    const rectangle = document.getElementById('rectangle');
+    const animation = rectangle.animate([
+      {bottom: '0px'},
+      {bottom: '150px'},
+      {bottom: '0px'} 
+    ], {
+      duration: 1000, // 1 second animation
+      iterations: Infinity,
+      easing: 'ease-in-out'
+    });
+  </script>
+</body>
+</html>
